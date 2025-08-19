@@ -36,8 +36,8 @@ function render() {
 
     // キャラクター重ね描き
     if (charLoaded) {
-        const charW = 100;
-        //const charW = baseW * 3; // ドギ画像のサイズを三倍に！（でっかいですに！）
+        const baseW = 100;
+        const charW = baseW * 3; // ドギ画像のサイズを三倍に！（でっかいですに！）
         const charH = charImg.naturalHeight / charImg.naturalWidth * charW;
         const posX = (canvas.width - charW) / 2;
         const posY = (canvas.height - charH) / 2;
