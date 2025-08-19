@@ -33,16 +33,21 @@ captureBtn.addEventListener("click", () => {
   const ctx = canvas.getContext("2d");
 
   // canvasサイズをvideoと合わせる
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
+  canvas.width = video.clientWidth;
+  canvas.height = video.clientHeight;
+  //canvas.width = video.videoWidth;
+  //canvas.height = video.videoHeight;
 
   // 1. カメラ映像を描画
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // 2. キャラ画像を重ねる(naturalWidth/Heightを使う)
-  const scale = 1;
-  const charW = character.naturalWidth * scale;
-  const charH = character.naturalHeight * scale;
+  // const scale = 1;
+  // const charW = character.naturalWidth * scale;
+  // const charH = character.naturalHeight * scale;
+  const charW = character.clientWidth;
+  const charH = character.clientHeight;
+  
   const posX = (canvas.width - charW) / 2;
   const posY = (canvas.height - charH) / 2;
 
