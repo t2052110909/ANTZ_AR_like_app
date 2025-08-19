@@ -3,7 +3,9 @@ const video = document.getElementById("camera");
 const captureBtn = document.getElementById("captureBtn");
 const canvas = document.getElementById("canvas");
 const resultImg = document.getElementById("result");
-const character = document.getElementById("character");
+
+const charImg = new Image();
+charImg.src = "imgs/deoki_trans.png";
 
 // キャラクター画像のロード完了フラグ
 let charLoaded = false;
@@ -22,6 +24,33 @@ navigator.mediaDevices.getUserMedia({ video: {facingMode:"environment"} })
     console.error("カメラを起動できません:", err);
   });
 
+// canvas描画
+function render() {
+    const ctx = canvas.getContext("2d");
+    // canvasをvideoサイズに合わせる
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // カメラ映像
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // キャラクター重ね描き
+    if (charLoaded) {
+        const charW = 100;
+        const charH = charImg.naturalHeight / charImg.naturalWidth * charW;
+        const posX = (canvas.width - charW) / 2;
+        const posY = (canvas.height - charH) / 2;
+        ctx.drawImage(charImg, posX, posY, charW, charH);
+    }
+
+    requestAnimationFrame(render);
+}
+
+// video準備できたら描画開始
+video.addEventListener("play", () => {
+    render();
+});
+
 // シャッター処理
 captureBtn.addEventListener("click", () => {
     if (!charLoaded) {
@@ -29,34 +58,34 @@ captureBtn.addEventListener("click", () => {
         return;
     }
 
-  const ctx = canvas.getContext("2d");
+  // const ctx = canvas.getContext("2d");
 
   // canvasサイズをvideoと合わせる
-  const videoRect = video.getBoundingClientRect();
-  canvas.width = videoRect.width;
-  canvas.height = videoRect.height;
+  // const videoRect = video.getBoundingClientRect();
+  // canvas.width = videoRect.width;
+  // canvas.height = videoRect.height;
   //canvas.width = video.videoWidth;
   //canvas.height = video.videoHeight;
 
   // 1. カメラ映像を描画
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // 2. キャラ画像を重ねる(naturalWidth/Heightを使う)
   // const scale = 1;
   // const charW = character.naturalWidth * scale;
   // const charH = character.naturalHeight * scale;
-  const charRect = character.getBoundingClientRect();
-  const charW = charRect.width;
-  const charH = charRect.height;
-  const scaleX = canvas.width / videoRect.width * 3;
-  const scaleY = canvas.height / videoRect.height * 3;
+  //const charRect = character.getBoundingClientRect();
+  //const charW = charRect.width;
+  //const charH = charRect.height;
+  //const scaleX = canvas.width / videoRect.width * 3;
+  //const scaleY = canvas.height / videoRect.height * 3;
 
-  const posX = charRect.left - videoRect.left * scaleX;
-  const posY = charRect.top - videoRect.top * scaleY;
-  const charW_scaled = charW * scaleX;
-  const charH_scaled = charH * scaleY;
+  //const posX = charRect.left - videoRect.left * scaleX;
+  //const posY = charRect.top - videoRect.top * scaleY;
+  //const charW_scaled = charW * scaleX;
+  //const charH_scaled = charH * scaleY;
 
-  ctx.drawImage(character, posX, posY, charW_scaled, charH_scaled);
+  //ctx.drawImage(character, posX, posY, charW_scaled, charH_scaled);
 
   // 3. JPEGに変換して保存用URLを作成
   const dataURL = canvas.toDataURL("image/jpeg", 1.0);
