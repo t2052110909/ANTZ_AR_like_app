@@ -1,33 +1,50 @@
 body {
+  margin: 0;
+  overflow: hidden;
   font-family: sans-serif;
   text-align: center;
-  background: #f5f5f5;
+  background: black;
 }
 
 .camera-container {
   position: relative;
-  display: inline-block;
-  width: 320px;
-  height: 240px;
-  background: black;
+  /* display: inline-block; */
+  width: 100vx;
+  height: 100vh;
+  overflow: hidden;
+  /* background: black;*/
 }
 
 #camera {
   width: 100%;
   height: 100%;
-  background: black;
+  object-fit: cover;
+  /* background: black; */
 }
 
 #character {
   position: absolute;
   top: 20px;
   left: 20px;
-  width: 100px;
+  width: 120px;
   opacity: 0.8; /* 透過度 */
+  pointer-events: none;
 }
 
 .controls {
-  margin: 10px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 12px;
+  /* margin: 10px; */
+}
+
+button {
+  font-size: 18px;
+  padding: 10px 20px;
 }
 
 #result {

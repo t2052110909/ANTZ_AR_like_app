@@ -31,15 +31,25 @@ captureBtn.addEventListener("click", () => {
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // 2. キャラ画像を重ねる(naturalWidth/Heightを使う)
-  ctx.drawImage(character, 20, 20, character.naturalwidth, character.naturalheight);
+  const scale = 3;
+  ctx.drawImage(character, 
+                50, 50,
+                character.naturalwidth * scale,
+                character.naturalheight * scale
+            );
 
-  // 3. PNG画像として保存
-  const dataURL = canvas.toDataURL("image/png");
+  // 3. JPEGに変換して保存用URLを作成
+  const dataURL = canvas.toDataURL("image/jpeg", 0.9);
   resultImg.src = dataURL;
 
-  // ダウンロードリンクとして保存する場合：
+  const win = window.open();
+  win.document.write(`<img src="${dataURL}" style="width:100%">`)
+
+});
+
+  /*// ダウンロードリンクとして保存する場合：
   const link = document.createElement("a");
   link.href = dataURL;
   link.download = "capture.png";
   link.click();
-});
+});*/
