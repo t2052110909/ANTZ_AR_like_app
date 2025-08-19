@@ -1,8 +1,14 @@
 // カメラ起動
 const video = document.getElementById("camera");
-navigator.mediaDevices.getUserMedia({ video: true })
+navigator.mediaDevices.getUserMedia({ video: {facingMode:"user"} })
   .then(stream => {
     video.srcObject = stream;
+    // iOS対策：明示的に再生を呼び出す
+    video.onloadmetadata = () => {
+        video.play().catch(err => {
+            console.error("自動再生エラー:", err);
+        });
+    };
   })
   .catch(err => {
     console.error("カメラを起動できません:", err);
