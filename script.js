@@ -9,7 +9,7 @@ charImg.src = "imgs/deoki_trans.png";
 
 // キャラクター画像のロード完了フラグ
 let charLoaded = false;
-character.onload = () => { charLoaded = true; };
+charImg.onload = () => { charLoaded = true; };
 
 navigator.mediaDevices.getUserMedia({ video: {facingMode:"environment"} })
   .then(stream => {
@@ -59,35 +59,6 @@ captureBtn.addEventListener("click", () => {
         return;
     }
 
-  // const ctx = canvas.getContext("2d");
-
-  // canvasサイズをvideoと合わせる
-  // const videoRect = video.getBoundingClientRect();
-  // canvas.width = videoRect.width;
-  // canvas.height = videoRect.height;
-  //canvas.width = video.videoWidth;
-  //canvas.height = video.videoHeight;
-
-  // 1. カメラ映像を描画
-  // ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  // 2. キャラ画像を重ねる(naturalWidth/Heightを使う)
-  // const scale = 1;
-  // const charW = character.naturalWidth * scale;
-  // const charH = character.naturalHeight * scale;
-  //const charRect = character.getBoundingClientRect();
-  //const charW = charRect.width;
-  //const charH = charRect.height;
-  //const scaleX = canvas.width / videoRect.width * 3;
-  //const scaleY = canvas.height / videoRect.height * 3;
-
-  //const posX = charRect.left - videoRect.left * scaleX;
-  //const posY = charRect.top - videoRect.top * scaleY;
-  //const charW_scaled = charW * scaleX;
-  //const charH_scaled = charH * scaleY;
-
-  //ctx.drawImage(character, posX, posY, charW_scaled, charH_scaled);
-
   // 3. JPEGに変換して保存用URLを作成
   const dataURL = canvas.toDataURL("image/jpeg", 1.0);
 
@@ -109,10 +80,3 @@ captureBtn.addEventListener("click", () => {
   win.document.close();
 
 });
-
-  /*// ダウンロードリンクとして保存する場合：
-  const link = document.createElement("a");
-  link.href = dataURL;
-  link.download = "capture.png";
-  link.click();
-});*/
