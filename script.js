@@ -60,7 +60,7 @@ captureBtn.addEventListener("click", () => {
     <html>
         <head><title>保存用画像</title></head>
         <body style=:margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
-            <img src="${dataURL}" style="max-width:100%;max-height:100vh;object-fit:contain;">
+            <img src="${dataURL}" style="width:90vh;height:auto;object-fit:contain;">
         </body>
     </html>
     `);
