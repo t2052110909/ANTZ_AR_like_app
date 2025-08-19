@@ -48,8 +48,8 @@ captureBtn.addEventListener("click", () => {
   const charRect = character.getBoundingClientRect();
   const charW = charRect.width;
   const charH = charRect.height;
-  const scaleX = canvas.width / videoRect.width;
-  const scaleY = canvas.height / videoRect.height;
+  const scaleX = canvas.width / videoRect.width * 3;
+  const scaleY = canvas.height / videoRect.height * 3;
 
   const posX = charRect.left - videoRect.left * scaleX;
   const posY = charRect.top - videoRect.top * scaleY;
