@@ -5,6 +5,10 @@ const canvas = document.getElementById("canvas");
 const resultImg = document.getElementById("result");
 const character = document.getElementById("character");
 
+// キャラクター画像のロード完了フラグ
+let charLoaded = false;
+character.onload = () => { charLoaded = true; };
+
 navigator.mediaDevices.getUserMedia({ video: {facingMode:"environment"} })
   .then(stream => {
     video.srcObject = stream;
@@ -21,6 +25,11 @@ navigator.mediaDevices.getUserMedia({ video: {facingMode:"environment"} })
 
 // シャッター処理
 captureBtn.addEventListener("click", () => {
+    if (!charLoaded) {
+        alert("キャラクター画像が読み込まれていません．少し待ってからもう一度押してくださいね！");
+        return;
+    }
+
   const ctx = canvas.getContext("2d");
 
   // canvasサイズをvideoと合わせる
@@ -32,16 +41,20 @@ captureBtn.addEventListener("click", () => {
 
   // 2. キャラ画像を重ねる(naturalWidth/Heightを使う)
   const scale = 3;
-  ctx.drawImage(character, 
-                50, 50,
-                character.naturalwidth * scale,
-                character.naturalheight * scale
-            );
+  const charW = character.naturalWidth * scale;
+  const charH = character.naturalHeight * scale;
+  const posX = (canvas.width - charW) / 2;
+  const posY = (canvas.height - charH) / 2;
+
+  ctx.drawImage(character, posX, posY, charW, charH);
 
   // 3. JPEGに変換して保存用URLを作成
   const dataURL = canvas.toDataURL("image/jpeg", 0.9);
+
+  // ページ内プレビュー
   resultImg.src = dataURL;
 
+  // 新しいtab表示
   const win = window.open();
   win.document.write(`
     <html>
