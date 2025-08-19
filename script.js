@@ -43,7 +43,16 @@ captureBtn.addEventListener("click", () => {
   resultImg.src = dataURL;
 
   const win = window.open();
-  win.document.write(`<img src="${dataURL}" style="width:100%">`)
+  win.document.write(`
+    <html>
+        <head><title>保存用画像</title></head>
+        <body style=:margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
+            <img src="${dataURL}" style="max-width:100%;max-height:100vh;object-fit:contain;">
+        </body>
+    </html>
+    `);
+  //win.document.write(`<img src="${dataURL}" style="width:100%">`)
+  win.document.close();
 
 });
 
