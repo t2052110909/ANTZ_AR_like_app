@@ -40,7 +40,7 @@ captureBtn.addEventListener("click", () => {
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
   // 2. キャラ画像を重ねる(naturalWidth/Heightを使う)
-  const scale = 3;
+  const scale = 1;
   const charW = character.naturalWidth * scale;
   const charH = character.naturalHeight * scale;
   const posX = (canvas.width - charW) / 2;
