@@ -36,7 +36,8 @@ function render() {
 
     // キャラクター重ね描き
     if (charLoaded) {
-        const charW = 100;
+        const baseW = 100;
+        const charW = baseW * 3; // ドギ画像のサイズを三倍に！（でっかいですに！）
         const charH = charImg.naturalHeight / charImg.naturalWidth * charW;
         const posX = (canvas.width - charW) / 2;
         const posY = (canvas.height - charH) / 2;
@@ -99,7 +100,8 @@ captureBtn.addEventListener("click", () => {
     <html>
         <head><title>保存用画像</title></head>
         <body style=":margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
-            <img src="${dataURL}" style="width:auto;height:auto;object-fit:contain;">
+            <img src="${dataURL}"
+            style="width:${canvas.width};height:${canvas.height};object-fit:contain;">
         </body>
     </html>
     `);
