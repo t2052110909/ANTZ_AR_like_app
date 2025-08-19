@@ -12,8 +12,7 @@ character.onload = () => { charLoaded = true; };
 navigator.mediaDevices.getUserMedia({ video: {facingMode:"environment"} })
   .then(stream => {
     video.srcObject = stream;
-    // iOS対策：明示的に再生を呼び出す
-    video.onloadmetadata = () => {
+    video.onloadmetadata = () => { // ios対策　明示的に呼び出す
         video.play().catch(err => {
             console.error("自動再生エラー:", err);
         });
@@ -33,8 +32,9 @@ captureBtn.addEventListener("click", () => {
   const ctx = canvas.getContext("2d");
 
   // canvasサイズをvideoと合わせる
-  canvas.width = video.clientWidth;
-  canvas.height = video.clientHeight;
+  const videoRect = video.getBoundingClientRect();
+  canvas.width = videoRect.Width;
+  canvas.height = videoRect.Height;
   //canvas.width = video.videoWidth;
   //canvas.height = video.videoHeight;
 
@@ -45,11 +45,11 @@ captureBtn.addEventListener("click", () => {
   // const scale = 1;
   // const charW = character.naturalWidth * scale;
   // const charH = character.naturalHeight * scale;
-  const charW = character.clientWidth;
-  const charH = character.clientHeight;
-  
-  const posX = (canvas.width - charW) / 2;
-  const posY = (canvas.height - charH) / 2;
+  const charRect = character.getBoundingClientRect();
+  const charW = charRect.Width;
+  const charH = charRect.Height;
+  const posX = charRect.left - videoRect.left;
+  const posY = charRect.top - videoRect.top;
 
   ctx.drawImage(character, posX, posY, charW, charH);
 
@@ -65,7 +65,7 @@ captureBtn.addEventListener("click", () => {
     <html>
         <head><title>保存用画像</title></head>
         <body style=:margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
-            <img src="${dataURL}" style="width:90vh;height:auto;object-fit:contain;">
+            <img src="${dataURL}" style="width:100%;height:auto;object-fit:contain;">
         </body>
     </html>
     `);
