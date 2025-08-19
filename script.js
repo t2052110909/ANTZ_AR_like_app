@@ -70,7 +70,7 @@ captureBtn.addEventListener("click", () => {
   win.document.write(`
     <html>
         <head><title>保存用画像</title></head>
-        <body style=":margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
+        <body style="margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
             <img src="${dataURL}"
             style="width:${canvas.width};height:${canvas.height};object-fit:contain;">
         </body>
