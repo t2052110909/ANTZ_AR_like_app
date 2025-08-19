@@ -1,6 +1,11 @@
 // カメラ起動
 const video = document.getElementById("camera");
-navigator.mediaDevices.getUserMedia({ video: {facingMode:"user"} })
+const captureBtn = document.getElementById("captureBtn");
+const canvas = document.getElementById("canvas");
+const resultImg = document.getElementById("result");
+const character = document.getElementById("character");
+
+navigator.mediaDevices.getUserMedia({ video: {facingMode:"environment"} })
   .then(stream => {
     video.srcObject = stream;
     // iOS対策：明示的に再生を呼び出す
@@ -15,11 +20,6 @@ navigator.mediaDevices.getUserMedia({ video: {facingMode:"user"} })
   });
 
 // シャッター処理
-const captureBtn = document.getElementById("captureBtn");
-const canvas = document.getElementById("canvas");
-const resultImg = document.getElementById("result");
-const character = document.getElementById("character");
-
 captureBtn.addEventListener("click", () => {
   const ctx = canvas.getContext("2d");
 
@@ -30,8 +30,8 @@ captureBtn.addEventListener("click", () => {
   // 1. カメラ映像を描画
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  // 2. キャラ画像を重ねる
-  ctx.drawImage(character, 20, 20, character.width, character.height);
+  // 2. キャラ画像を重ねる(naturalWidth/Heightを使う)
+  ctx.drawImage(character, 20, 20, character.naturalwidth, character.naturalheight);
 
   // 3. PNG画像として保存
   const dataURL = canvas.toDataURL("image/png");
