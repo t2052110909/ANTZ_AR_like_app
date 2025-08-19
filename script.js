@@ -12,7 +12,7 @@ character.onload = () => { charLoaded = true; };
 navigator.mediaDevices.getUserMedia({ video: {facingMode:"environment"} })
   .then(stream => {
     video.srcObject = stream;
-    video.onloadmetadata = () => { // ios対策　明示的に呼び出す
+    video.onloadedmetadata = () => { // ios対策　明示的に呼び出す
         video.play().catch(err => {
             console.error("自動再生エラー:", err);
         });
@@ -33,8 +33,8 @@ captureBtn.addEventListener("click", () => {
 
   // canvasサイズをvideoと合わせる
   const videoRect = video.getBoundingClientRect();
-  canvas.width = videoRect.Width;
-  canvas.height = videoRect.Height;
+  canvas.width = videoRect.width;
+  canvas.height = videoRect.height;
   //canvas.width = video.videoWidth;
   //canvas.height = video.videoHeight;
 
@@ -46,15 +46,20 @@ captureBtn.addEventListener("click", () => {
   // const charW = character.naturalWidth * scale;
   // const charH = character.naturalHeight * scale;
   const charRect = character.getBoundingClientRect();
-  const charW = charRect.Width;
-  const charH = charRect.Height;
-  const posX = charRect.left - videoRect.left;
-  const posY = charRect.top - videoRect.top;
+  const charW = charRect.width;
+  const charH = charRect.height;
+  const scaleX = canvas.width / videoRect.width;
+  const scaleY = canvas.height / videoRect.height;
 
-  ctx.drawImage(character, posX, posY, charW, charH);
+  const posX = charRect.left - videoRect.left * scaleX;
+  const posY = charRect.top - videoRect.top * scaleY;
+  const charW_scaled = charW * scaleX;
+  const charH_scaled = charH * scaleY;
+
+  ctx.drawImage(character, posX, posY, charW_scaled, charH_scaled);
 
   // 3. JPEGに変換して保存用URLを作成
-  const dataURL = canvas.toDataURL("image/jpeg", 0.9);
+  const dataURL = canvas.toDataURL("image/jpeg", 1.0);
 
   // ページ内プレビュー
   resultImg.src = dataURL;
@@ -64,7 +69,7 @@ captureBtn.addEventListener("click", () => {
   win.document.write(`
     <html>
         <head><title>保存用画像</title></head>
-        <body style=:margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
+        <body style=":margin:0;display:flex;justify-content:center;align-items:center;background:#000;">
             <img src="${dataURL}" style="width:100%;height:auto;object-fit:contain;">
         </body>
     </html>
